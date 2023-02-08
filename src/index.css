@@ -70,4 +70,9 @@ ul li {
   align-items: center;
 }
 
+.container .text-author {
+  width: 150px;
+  text-align: center;
+}
+
 /*# sourceMappingURL=index.css.map */
