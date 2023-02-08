@@ -25,7 +25,7 @@ function App() {
     { name: '1', id: 'one' },
     { name: '0', id: 'zero' },
     { name: '.', id: 'decimal' },
-    { name: '=', id: 'equal' }
+    { name: '=', id: 'equals' }
   ];
   const operators = ['AC', '/', '*', '-', '+', '=']
 
@@ -37,58 +37,64 @@ function App() {
     setOperator('');
   }
 
-  function equal(a, b, operator) {
-    a = +a;
-    b = +b;
-    let result;
-    switch(operator){
-      case '/':
-        result = a / b;
-        break;
-      case '*':
-        result = a * b;
-        break;
-      case '+':
-        result = a + b;
-        break;
-      case '-':
-        result = a - b;
-        break;
-      default:
-        return null;
+  function calculate(numbers, operator) {
+    let result = 0;
+    for (let i=0; i<numbers.length; i++) {
+      let number = parseFloat(numbers[i]);
+      if (i === 0) {
+        result = number;
+        continue;
+      }
+      switch (operator) {
+        case '+':
+          result += number;
+          break;
+        case '-':
+          result -= number;
+          break;
+        case '*':
+          result *= number;
+          break;
+        case '/':
+          result /= number;
+          break;
+        default:
+          return null;
+      }
     }
-    console.log(a, b, result);
-    setDisplay(result);
+    return result;
   }
-
+  
   function handle(e) {
     if(e === '=') {
-      return equal(firstNum, secondNum, operator);
+      const numbers = display.split(/[\+\-\*\/]/);
+      const result = calculate(numbers, operator);
+      setDisplay(result);
+      return;
     }
-  
+    
     if (operators.includes(e)) {
       setDisplay(`${display} ${e} `);
       switch (e) {
         case 'AC':
-        return clear();
+          return clear();
         case '/':
         case '*':
         case '+':
         case '-':
-        return setOperator(e);
-        default:
-        break;
-     }
+          return setOperator(e);
+          default:
+          break;
+       }
     }
-    display === '0' ? setDisplay(`${e}`) : setDisplay(`${display}${e}`);;
-    return operator === '' ? setFirstNum(`${firstNum}${e}`) : setSecondNum(`${secondNum}${e}`);
+    display === '0' ? setDisplay(`${e}`) : setDisplay(`${display}${e}`);
   }
    
 
   return (
     <>
       <div className='calculator'>
-        <p className='display'>
+        <p className='display' id='display'>
           {display}
         </p>
         <div className='buttons-container'>
