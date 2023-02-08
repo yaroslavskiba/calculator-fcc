@@ -53,8 +53,9 @@ function App() {
         break;
       case '-':
         result = a - b;
-      default:
         break;
+      default:
+        return null;
     }
     console.log(a, b, result);
     setDisplay(result);
