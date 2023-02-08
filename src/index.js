@@ -4,9 +4,7 @@ import './index.css';
 
 function App() {
   const [display, setDisplay] = useState('0');
-  const [firstNum, setFirstNum] = useState('');
-  const [secondNum, setSecondNum] = useState('');
-  const [operator, setOperator] = useState('');
+
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -30,65 +28,7 @@ function App() {
   const operators = ['AC', '/', '*', '-', '+', '=']
 
 
-  function clear() {
-    setFirstNum('');
-    setSecondNum('');
-    setDisplay('0');
-    setOperator('');
-  }
-
-  function calculate(numbers, operator) {
-    let result = 0;
-    for (let i=0; i<numbers.length; i++) {
-      let number = parseFloat(numbers[i]);
-      if (i === 0) {
-        result = number;
-        continue;
-      }
-      switch (operator) {
-        case '+':
-          result += number;
-          break;
-        case '-':
-          result -= number;
-          break;
-        case '*':
-          result *= number;
-          break;
-        case '/':
-          result /= number;
-          break;
-        default:
-          return null;
-      }
-    }
-    return result;
-  }
-  
-  function handle(e) {
-    if(e === '=') {
-      const numbers = display.split(/[\+\-\*\/]/);
-      const result = calculate(numbers, operator);
-      setDisplay(result);
-      return;
-    }
-    
-    if (operators.includes(e)) {
-      setDisplay(`${display} ${e} `);
-      switch (e) {
-        case 'AC':
-          return clear();
-        case '/':
-        case '*':
-        case '+':
-        case '-':
-          return setOperator(e);
-          default:
-          break;
-       }
-    }
-    display === '0' ? setDisplay(`${e}`) : setDisplay(`${display}${e}`);
-  }
+  //пишу заново, логика не та :(
    
 
   return (
