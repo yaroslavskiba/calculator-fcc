@@ -28,38 +28,8 @@ function App() {
   ];
 
 
-  //оно работает но это полный кринж :( чет меня понесло
   function equal() {
-    // const regex = /[1-9.]/gm;
-    // let fullList = [...display];
-    // const copy = display;
-    // const operatorsList = copy.split(regex)
-    //   .filter(item => item !== '');
-    // while (fullList.length !== 1){
-    //   if (operatorsList.includes('*') || operatorsList.includes('/')) {
-    //     const mul = fullList.indexOf('*');
-    //     const div = fullList.indexOf('/');
-    //     let current = mul > div ? mul : div;
-    //     const start = fullList.slice(0, current - 1);
-    //     const end = fullList.slice(current + 2)
-    //     const calculateOne = fullList[current - 1];
-    //     const calculateTwo = fullList[current + 1];
-    //     const calculate = mul > div ? +calculateOne * +calculateTwo : +calculateOne / +calculateTwo;
-    //     fullList = [...start, calculate, ...end];
-    //   }
-    //   const mul = fullList.indexOf('+');
-    //   const div = fullList.indexOf('-');
-    //   let current = mul > div ? mul : div;
-    //   const start = fullList.slice(0, current - 1);
-    //   const end = fullList.slice(current + 2)
-    //   const calculateOne = fullList[current - 1];
-    //   const calculateTwo = fullList[current + 1];
-    //   const calculate = mul > div ? +calculateOne + +calculateTwo : +calculateOne - +calculateTwo;
-    //   fullList = [...start, calculate, ...end];
-    // }
-    // return setDisplay(fullList.join(''));
-    const result = eval(display)
-    return setDisplay(result);
+
   }
 
   function clear() {
