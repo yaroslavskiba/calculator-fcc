@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
 function App() {
+  const [cur, setCur] = useState('');
   const [display, setDisplay] = useState('0');
 
 
@@ -25,11 +26,58 @@ function App() {
     { name: '.', id: 'decimal' },
     { name: '=', id: 'equals' }
   ];
-  const operators = ['AC', '/', '*', '-', '+', '=']
 
+  function equal() {
+    const regex = /[1-9\.]/gm;
+    const fullList = [...display];
+    const copy = display;
+    const operatorsList = copy.split(regex);
+    const result = 0;
+    for (let i = 0; i < operatorsList.length; i++) {
+      if (operatorsList.includes('*') || operatorsList.includes('/')) {
+        // логикаааа голова кипит
+        //хотя чувствую, что просто усложняю все :((
+      }
+        
+    }
 
-  //пишу заново, логика не та :(
-   
+  }
+  
+  // function CurrentNum(num) {
+  //   return { current: num };
+  // }
+
+  function clear() {
+    setCur('');
+    return setDisplay('0');
+  }
+
+  // function newCur(e) {
+  //   const currentObj = new CurrentNum(e);
+  //   setCur('');
+  //   const currentNum = currentObj.current;
+  //   return setNumbers([...numbers, currentNum]);
+  // }
+
+  function handle(e) {
+    if (e === 'AC') return clear();
+
+    // if (operators.includes(e)) {
+    //   setDisplay(display + e);
+    //   return newCur(cur);
+    // }
+
+    if (display === '0') {
+      if (e === '.') {
+        setCur(cur + e);
+        return setDisplay(display + e);
+      }
+      setCur(e);
+      return setDisplay(e)
+    }
+    setCur(cur + e);
+    return setDisplay(display + e)
+  }
 
   return (
     <>
