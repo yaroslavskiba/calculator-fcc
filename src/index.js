@@ -5,7 +5,7 @@ import './index.css';
 function App() {
   const [cur, setCur] = useState('');
   const [display, setDisplay] = useState('0');
-
+  console.log(display);
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -27,45 +27,53 @@ function App() {
     { name: '=', id: 'equals' }
   ];
 
-  function equal() {
-    const regex = /[1-9\.]/gm;
-    const fullList = [...display];
-    const copy = display;
-    const operatorsList = copy.split(regex);
-    const result = 0;
-    for (let i = 0; i < operatorsList.length; i++) {
-      if (operatorsList.includes('*') || operatorsList.includes('/')) {
-        // логикаааа голова кипит
-        //хотя чувствую, что просто усложняю все :((
-      }
-        
-    }
 
+  //оно работает но это полный кринж :( чет меня понесло
+  function equal() {
+    // const regex = /[1-9.]/gm;
+    // let fullList = [...display];
+    // const copy = display;
+    // const operatorsList = copy.split(regex)
+    //   .filter(item => item !== '');
+    // while (fullList.length !== 1){
+    //   if (operatorsList.includes('*') || operatorsList.includes('/')) {
+    //     const mul = fullList.indexOf('*');
+    //     const div = fullList.indexOf('/');
+    //     let current = mul > div ? mul : div;
+    //     const start = fullList.slice(0, current - 1);
+    //     const end = fullList.slice(current + 2)
+    //     const calculateOne = fullList[current - 1];
+    //     const calculateTwo = fullList[current + 1];
+    //     const calculate = mul > div ? +calculateOne * +calculateTwo : +calculateOne / +calculateTwo;
+    //     fullList = [...start, calculate, ...end];
+    //   }
+    //   const mul = fullList.indexOf('+');
+    //   const div = fullList.indexOf('-');
+    //   let current = mul > div ? mul : div;
+    //   const start = fullList.slice(0, current - 1);
+    //   const end = fullList.slice(current + 2)
+    //   const calculateOne = fullList[current - 1];
+    //   const calculateTwo = fullList[current + 1];
+    //   const calculate = mul > div ? +calculateOne + +calculateTwo : +calculateOne - +calculateTwo;
+    //   fullList = [...start, calculate, ...end];
+    // }
+    // return setDisplay(fullList.join(''));
+    const result = eval(display)
+    return setDisplay(result);
   }
-  
-  // function CurrentNum(num) {
-  //   return { current: num };
-  // }
 
   function clear() {
     setCur('');
     return setDisplay('0');
   }
 
-  // function newCur(e) {
-  //   const currentObj = new CurrentNum(e);
-  //   setCur('');
-  //   const currentNum = currentObj.current;
-  //   return setNumbers([...numbers, currentNum]);
-  // }
-
   function handle(e) {
     if (e === 'AC') return clear();
 
-    // if (operators.includes(e)) {
-    //   setDisplay(display + e);
-    //   return newCur(cur);
-    // }
+    if (e === '=') {
+      clear();
+      return equal();
+    }
 
     if (display === '0') {
       if (e === '.') {
