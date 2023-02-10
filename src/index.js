@@ -5,7 +5,7 @@ import './index.css';
 function App() {
   const [cur, setCur] = useState('');
   const [display, setDisplay] = useState('0');
-  console.log(display);
+  console.log(cur);
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -26,7 +26,6 @@ function App() {
     { name: '.', id: 'decimal' },
     { name: '=', id: 'equals' }
   ];
-
 
   function equal() {
 
@@ -53,8 +52,16 @@ function App() {
       setCur(e);
       return setDisplay(e)
     }
+    if (e === '.') {
+      const reg = /\./
+      if (reg.test(cur)) {
+        return setDisplay(display + e);
+      }
+      setCur(cur + e);
+      return setDisplay(display + e);
+    }
     setCur(cur + e);
-    return setDisplay(display + e)
+    return setDisplay(display + e);
   }
 
   return (
