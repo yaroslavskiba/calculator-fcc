@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 function App() {
-  const [cur, setCur] = useState('0');
+  const [cur, setCur] = useState('');
   const [display, setDisplay] = useState('0');
   const [nums, setNums] = useState([]);
   const [operators, setOperators] = useState([]);
-  console.log(cur)
-  // console.log(operators)
+
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -31,71 +30,69 @@ function App() {
   ];
 
   function equal() {
-    const numsEqual = nums.slice(0);
-    const operatorsEqual = operators.slice(0);
-    // console.log(numsEqual)
-    // console.log(operatorsEqual)
-    let result = +numsEqual[0];
-    for (let i = 0; i < operatorsEqual.length; i++) {
-      switch (operatorsEqual[i]) {
+    console.log(nums)
+    let result = Number(nums[0]);
+    for (let i = 0; i < operators.length; i++) {
+      switch (operators[i]) {
         case '+':
-          result += +numsEqual[i+1];
+          if (typeof nums[i + 1] !== 'undefined') result += Number(nums[i+1]);
           break;
         case '-':
-          result -= +numsEqual[i+1];
+          if (typeof nums[i + 1] !== 'undefined') result -= Number(nums[i+1]);
           break;
         case '*':
-          result *= +numsEqual[i+1];
+          if (typeof nums[i + 1] !== 'undefined') result *= Number(nums[i+1]);
           break;
         case '/':
-          result /= +numsEqual[i+1];
+          if (typeof nums[i + 1] !== 'undefined') result /= Number(nums[i+1]);
           break;
         default:
           return result;
       }
     }
     return String(result);
-    // setNums([result]);
-    // return setDisplay(result);
   }
+
 
   function clear() {
     setOperators([]);
     setNums([]);
-    setCur('0');
+    setCur('');
     return setDisplay('0');
   }
 
   function handle(e) {
     if (e === 'AC') return clear();
 
-    if (e === '=') {
-      setNums([...nums, cur]);
-      setCur('0')
-      const result = equal();
-      setNums([result])
-      return setDisplay(result)
-    }
-
-    if (e === '-' && cur === '0') {
+    if (e === '-' && cur === '') {
       setCur(e);
-      return setDisplay(display + e);
+      setDisplay(display + e);
+      return;
     }
 
-    if (e === '-' || e === '+' || e === '*' || e === '/') {
-      setNums([...nums, cur]);
+    if (e === '-' || e === '+' || e === '*' || e === '/' || e === '=') { 
+      setNums([...nums, cur]); //последнее число почему-то не видно в nums
+      setCur('')
+      if (e === '=') {
+        const result = equal();
+        setCur(result)
+        setDisplay(result)
+        return;
+      }
       setOperators([...operators, e]);
-      setCur('0');
-      return setDisplay(display + e);
+      setDisplay(display + e);
+      return;
     }
 
-    if (cur === '0') {
+    if (display === '0') {
       if (e === '.') {
         setCur(cur + e);
-        return setDisplay(display + e);
+        setDisplay(display + e);
+        return;
       }
       setCur(e);
-      return setDisplay(e)
+      setDisplay(e);
+      return;
     }
     if (e === '.') {
       const reg = /\./
@@ -103,10 +100,12 @@ function App() {
         return;
       }
       setCur(cur + e);
-      return setDisplay(display + e);
+      setDisplay(display + e);
+      return;
     }
     setCur(cur + e);
-    return setDisplay(display + e);
+    setDisplay(display + e);
+    return;
   }
 
   return (
