@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 function App() {
-  const [cur, setCur] = useState('');
+  const [cur, setCur] = useState('0');
   const [display, setDisplay] = useState('0');
+  const [nums, setNums] = useState([]);
+  const [operators, setOperators] = useState([]);
   console.log(cur)
+  // console.log(operators)
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -28,34 +31,38 @@ function App() {
   ];
 
   function equal() {
-    const reg = /[+*\/-]/g
-    const nums = display.split(reg);
-    const operators = display.split(/[1-9\.0]/g)
-      .filter(i => i !== '');
-    let result = +nums[0];
-    for (let i = 0; i < operators.length; i++) {
-      switch (operators[i]) {
+    const numsEqual = nums.slice(0);
+    const operatorsEqual = operators.slice(0);
+    // console.log(numsEqual)
+    // console.log(operatorsEqual)
+    let result = +numsEqual[0];
+    for (let i = 0; i < operatorsEqual.length; i++) {
+      switch (operatorsEqual[i]) {
         case '+':
-          result += +nums[i+1];
+          result += +numsEqual[i+1];
           break;
         case '-':
-          result -= +nums[i+1];
+          result -= +numsEqual[i+1];
           break;
         case '*':
-          result *= +nums[i+1];
+          result *= +numsEqual[i+1];
           break;
         case '/':
-          result /= +nums[i+1];
+          result /= +numsEqual[i+1];
           break;
         default:
           return result;
       }
     }
-    return setDisplay(String(result));
+    return String(result);
+    // setNums([result]);
+    // return setDisplay(result);
   }
 
   function clear() {
-    setCur('');
+    setOperators([]);
+    setNums([]);
+    setCur('0');
     return setDisplay('0');
   }
 
@@ -63,16 +70,26 @@ function App() {
     if (e === 'AC') return clear();
 
     if (e === '=') {
-      clear();
-      return equal();
+      setNums([...nums, cur]);
+      setCur('0')
+      const result = equal();
+      setNums([result])
+      return setDisplay(result)
     }
 
-    if (e === '-' || e === '+' || e === '*' || e === '/') {
-      setCur('');
+    if (e === '-' && cur === '0') {
+      setCur(e);
       return setDisplay(display + e);
     }
 
-    if (display === '0') {
+    if (e === '-' || e === '+' || e === '*' || e === '/') {
+      setNums([...nums, cur]);
+      setOperators([...operators, e]);
+      setCur('0');
+      return setDisplay(display + e);
+    }
+
+    if (cur === '0') {
       if (e === '.') {
         setCur(cur + e);
         return setDisplay(display + e);
