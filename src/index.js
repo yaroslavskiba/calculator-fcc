@@ -5,7 +5,7 @@ import './index.css';
 function App() {
   const [cur, setCur] = useState('');
   const [display, setDisplay] = useState('0');
-  console.log(cur);
+  console.log(cur)
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -28,7 +28,30 @@ function App() {
   ];
 
   function equal() {
-
+    const reg = /[+*\/-]/g
+    const nums = display.split(reg);
+    const operators = display.split(/[1-9\.0]/g)
+      .filter(i => i !== '');
+    let result = +nums[0];
+    for (let i = 0; i < operators.length; i++) {
+      switch (operators[i]) {
+        case '+':
+          result += +nums[i+1];
+          break;
+        case '-':
+          result -= +nums[i+1];
+          break;
+        case '*':
+          result *= +nums[i+1];
+          break;
+        case '/':
+          result /= +nums[i+1];
+          break;
+        default:
+          return result;
+      }
+    }
+    return setDisplay(String(result));
   }
 
   function clear() {
@@ -44,6 +67,11 @@ function App() {
       return equal();
     }
 
+    if (e === '-' || e === '+' || e === '*' || e === '/') {
+      setCur('');
+      return setDisplay(display + e);
+    }
+
     if (display === '0') {
       if (e === '.') {
         setCur(cur + e);
@@ -55,7 +83,7 @@ function App() {
     if (e === '.') {
       const reg = /\./
       if (reg.test(cur)) {
-        return setDisplay(display + e);
+        return;
       }
       setCur(cur + e);
       return setDisplay(display + e);
