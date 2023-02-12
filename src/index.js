@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
@@ -8,6 +8,13 @@ function App() {
   const [nums, setNums] = useState([]);
   const [operators, setOperators] = useState([]);
 
+  // useEffect(() => {
+  //   setNums([...nums]);
+  // }, [nums]);
+  
+  // useEffect(() => {
+  //   setOperators([...operators]);
+  // }, [operators]);
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -29,8 +36,7 @@ function App() {
     { name: '=', id: 'equals' }
   ];
 
-  function equal() {
-    console.log(nums)
+  function equal(nums, operators) {
     let result = Number(nums[0]);
     for (let i = 0; i < operators.length; i++) {
       switch (operators[i]) {
@@ -71,15 +77,18 @@ function App() {
     }
 
     if (e === '-' || e === '+' || e === '*' || e === '/' || e === '=') { 
-      setNums([...nums, cur]); //последнее число почему-то не видно в nums
-      setCur('')
+      setNums([...nums, cur]);
+      console.log(operators, nums)
       if (e === '=') {
-        const result = equal();
-        setCur(result)
-        setDisplay(result)
+        const result = equal(nums, operators);
+        setCur(result);
+        setNums([]);
+        setOperators([]);
+        setDisplay(result);
         return;
       }
-      setOperators([...operators, e]);
+      setCur('');
+      setOperators(prev => [...prev, e]);
       setDisplay(display + e);
       return;
     }
