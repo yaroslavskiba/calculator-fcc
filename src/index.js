@@ -77,8 +77,8 @@ function App() {
     }
 
     if (e === '-' || e === '+' || e === '*' || e === '/' || e === '=') { 
+      // нужно изменить  useState на обычную переменную. Асинхронность тут нахрен не нужна!
       setNums([...nums, cur]);
-      console.log(operators, nums)
       if (e === '=') {
         const result = equal(nums, operators);
         setCur(result);
