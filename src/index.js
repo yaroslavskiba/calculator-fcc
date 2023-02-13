@@ -7,14 +7,15 @@ function App() {
   const [display, setDisplay] = useState('0');
   const [nums, setNums] = useState([]);
   const [operators, setOperators] = useState([]);
+  const [equal, setEqual] = useState(false);
+  const [result, setResult] = useState('');
 
-  // useEffect(() => {
-  //   setNums([...nums]);
-  // }, [nums]);
-  
-  // useEffect(() => {
-  //   setOperators([...operators]);
-  // }, [operators]);
+  useEffect(() => {
+    setNums(nums);
+    setOperators(operators)
+    equalHandler();
+  }, [equal]);
+
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -36,7 +37,7 @@ function App() {
     { name: '=', id: 'equals' }
   ];
 
-  function equal(nums, operators) {
+  function equalHandler() {
     let result = Number(nums[0]);
     for (let i = 0; i < operators.length; i++) {
       switch (operators[i]) {
@@ -53,10 +54,11 @@ function App() {
           if (typeof nums[i + 1] !== 'undefined') result /= Number(nums[i+1]);
           break;
         default:
-          return result;
+          break;
       }
     }
-    return String(result);
+    setResult(String(result));
+    setEqual(false);
   }
 
 
@@ -77,10 +79,9 @@ function App() {
     }
 
     if (e === '-' || e === '+' || e === '*' || e === '/' || e === '=') { 
-      // нужно изменить  useState на обычную переменную. Асинхронность тут нахрен не нужна!
       setNums([...nums, cur]);
       if (e === '=') {
-        const result = equal(nums, operators);
+        setEqual(true);
         setCur(result);
         setNums([]);
         setOperators([]);
