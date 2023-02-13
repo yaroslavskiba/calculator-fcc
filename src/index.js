@@ -3,19 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 function App() {
-  const [cur, setCur] = useState('');
-  const [display, setDisplay] = useState('0');
-  const [nums, setNums] = useState([]);
-  const [operators, setOperators] = useState([]);
-  const [equal, setEqual] = useState(false);
-  const [result, setResult] = useState('');
 
-  useEffect(() => {
-    setNums(nums);
-    setOperators(operators)
-    equalHandler();
-  }, [equal]);
-
+  //переменные и хуки 
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -37,86 +26,7 @@ function App() {
     { name: '=', id: 'equals' }
   ];
 
-  function equalHandler() {
-    let result = Number(nums[0]);
-    for (let i = 0; i < operators.length; i++) {
-      switch (operators[i]) {
-        case '+':
-          if (typeof nums[i + 1] !== 'undefined') result += Number(nums[i+1]);
-          break;
-        case '-':
-          if (typeof nums[i + 1] !== 'undefined') result -= Number(nums[i+1]);
-          break;
-        case '*':
-          if (typeof nums[i + 1] !== 'undefined') result *= Number(nums[i+1]);
-          break;
-        case '/':
-          if (typeof nums[i + 1] !== 'undefined') result /= Number(nums[i+1]);
-          break;
-        default:
-          break;
-      }
-    }
-    setResult(String(result));
-    setEqual(false);
-  }
-
-
-  function clear() {
-    setOperators([]);
-    setNums([]);
-    setCur('');
-    return setDisplay('0');
-  }
-
-  function handle(e) {
-    if (e === 'AC') return clear();
-
-    if (e === '-' && cur === '') {
-      setCur(e);
-      setDisplay(display + e);
-      return;
-    }
-
-    if (e === '-' || e === '+' || e === '*' || e === '/' || e === '=') { 
-      setNums([...nums, cur]);
-      if (e === '=') {
-        setEqual(true);
-        setCur(result);
-        setNums([]);
-        setOperators([]);
-        setDisplay(result);
-        return;
-      }
-      setCur('');
-      setOperators(prev => [...prev, e]);
-      setDisplay(display + e);
-      return;
-    }
-
-    if (display === '0') {
-      if (e === '.') {
-        setCur(cur + e);
-        setDisplay(display + e);
-        return;
-      }
-      setCur(e);
-      setDisplay(e);
-      return;
-    }
-    if (e === '.') {
-      const reg = /\./
-      if (reg.test(cur)) {
-        return;
-      }
-      setCur(cur + e);
-      setDisplay(display + e);
-      return;
-    }
-    setCur(cur + e);
-    setDisplay(display + e);
-    return;
-  }
+  // логика и функции для =
 
   return (
     <>
