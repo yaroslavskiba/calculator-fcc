@@ -3,8 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 function App() {
+  const [cur, setCur] = useState('');
+  const [display, setDisplay] = useState('0');
+  const [nums, setNums] = useState([]);
+  const [operators, setOperators] = useState([]);
+  const [equal, setEqual] = useState(false);
+  const [result, setResult] = useState('');
+  console.log(nums, operators)
 
-  //переменные и хуки 
+  useEffect(() => {
+    setNums([...nums])
+  }, [operators]);
+
+  useEffect(() => {
+    if (equal === true) {
+      equalHandler(nums, operators);
+    }
+  }, [equal])
+
+  useEffect(() => {
+    setNums([]);
+    setOperators([]);
+    setCur(result);
+    setDisplay(+result);
+  }, [result]);
+
 
   const buttons = [
     { name: 'AC', id: 'clear' },
@@ -26,7 +49,84 @@ function App() {
     { name: '=', id: 'equals' }
   ];
 
-  // логика и функции для =
+  function equalHandler(nums, operators) {
+    // console.log(nums[0], nums[1], nums[2])
+    let result = Number(nums[0]);
+    for (let i = 0; i < operators.length; i++) {
+      // console.log(result, operators[i])
+      switch (operators[i]) {
+        case '+':
+          if (typeof nums[i + 1] !== 'undefined') result += Number(nums[i+1]);
+          break;
+        case '-':
+          if (typeof nums[i + 1] !== 'undefined') result -= Number(nums[i+1]);
+          break;
+        case '*':
+          if (typeof nums[i + 1] !== 'undefined') result *= Number(nums[i+1]);
+          break;
+        case '/':
+          if (typeof nums[i + 1] !== 'undefined') result /= Number(nums[i+1]);
+          break;
+        default:
+          break;
+      }
+    }
+    setResult(result.toString());
+    setEqual(false);
+  }
+
+
+  function clear() {
+    setOperators([]);
+    setNums([]);
+    setCur('');
+    return setDisplay('0');
+  }
+
+  function handle(e) {
+    if (e === 'AC') return clear();
+
+    if (e === '-' && cur === '') {
+      setCur(e);
+      setDisplay(display + e);
+      return;
+    }
+
+    if (e === '-' || e === '+' || e === '*' || e === '/' || e === '=') { 
+      setNums([...nums, cur]);
+      setOperators([...operators, e]);
+      if (e === '=') {
+        setEqual(true);
+        return;
+      }
+      setCur('');
+      setDisplay(display + e);
+      return;
+    }
+
+    if (display === '0') {
+      if (e === '.') {
+        setCur(cur + e);
+        setDisplay(display + e);
+        return;
+      }
+      setCur(e);
+      setDisplay(e);
+      return;
+    }
+    if (e === '.') {
+      const reg = /\./
+      if (reg.test(cur)) {
+        return;
+      }
+      setCur(cur + e);
+      setDisplay(display + e);
+      return;
+    }
+    setCur(cur + e);
+    setDisplay(display + e);
+    return;
+  }
 
   return (
     <>
