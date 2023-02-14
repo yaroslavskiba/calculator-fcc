@@ -1,5 +1,7 @@
 # Build a JavaScript Calculator
 
+[CodeSandBox](https://codesandbox.io/p/github/yaroslavskiba/calculator-fcc/master?workspaceId=d87397fa-706d-47a1-b6cd-189a7eebdc4e&file=%2FREADME.md)
+
 [12/16]
 Objective: Build an app that is functionally similar to this: [ https://javascript-calculator.freecodecamp.rocks/ ].
 
