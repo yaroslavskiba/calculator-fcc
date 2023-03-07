@@ -9,17 +9,16 @@ function App() {
   const [operators, setOperators] = useState([]);
   const [equal, setEqual] = useState(false);
   const [result, setResult] = useState('');
-  console.log(nums, operators)
 
   useEffect(() => {
-    setNums([...nums])
+    setNums([...nums]);
   }, [operators]);
 
   useEffect(() => {
     if (equal === true) {
       equalHandler(nums, operators);
     }
-  }, [equal])
+  }, [equal, nums, operators]);
 
   useEffect(() => {
     setNums([]);
@@ -28,10 +27,9 @@ function App() {
     setDisplay(+result);
   }, [result]);
 
-
   const buttons = [
     { name: 'AC', id: 'clear' },
-    { name: '/', id:"divide" },
+    { name: '/', id: 'divide' },
     { name: '*', id: 'multiply' },
     { name: '7', id: 'seven' },
     { name: '8', id: 'eight' },
@@ -46,26 +44,24 @@ function App() {
     { name: '1', id: 'one' },
     { name: '0', id: 'zero' },
     { name: '.', id: 'decimal' },
-    { name: '=', id: 'equals' }
+    { name: '=', id: 'equals' },
   ];
 
   function equalHandler(nums, operators) {
-    // console.log(nums[0], nums[1], nums[2])
     let result = Number(nums[0]);
     for (let i = 0; i < operators.length; i++) {
-      // console.log(result, operators[i])
       switch (operators[i]) {
         case '+':
-          if (typeof nums[i + 1] !== 'undefined') result += Number(nums[i+1]);
+          if (typeof nums[i + 1] !== 'undefined') result += Number(nums[i + 1]);
           break;
         case '-':
-          if (typeof nums[i + 1] !== 'undefined') result -= Number(nums[i+1]);
+          if (typeof nums[i + 1] !== 'undefined') result -= Number(nums[i + 1]);
           break;
         case '*':
-          if (typeof nums[i + 1] !== 'undefined') result *= Number(nums[i+1]);
+          if (typeof nums[i + 1] !== 'undefined') result *= Number(nums[i + 1]);
           break;
         case '/':
-          if (typeof nums[i + 1] !== 'undefined') result /= Number(nums[i+1]);
+          if (typeof nums[i + 1] !== 'undefined') result /= Number(nums[i + 1]);
           break;
         default:
           break;
@@ -74,7 +70,6 @@ function App() {
     setResult(result.toString());
     setEqual(false);
   }
-
 
   function clear() {
     setOperators([]);
@@ -92,7 +87,7 @@ function App() {
       return;
     }
 
-    if (e === '-' || e === '+' || e === '*' || e === '/' || e === '=') { 
+    if (e === '-' || e === '+' || e === '*' || e === '/' || e === '=') {
       setNums([...nums, cur]);
       setOperators([...operators, e]);
       if (e === '=') {
@@ -115,17 +110,14 @@ function App() {
       return;
     }
     if (e === '.') {
-      const reg = /\./
-      if (reg.test(cur)) {
-        return;
-      }
+      if (cur.includes('.')) return;
       setCur(cur + e);
       setDisplay(display + e);
       return;
     }
+
     setCur(cur + e);
     setDisplay(display + e);
-    return;
   }
 
   return (
@@ -135,7 +127,16 @@ function App() {
           {display}
         </p>
         <div className='buttons-container'>
-          {buttons.map((buttonName, index) => <button key={buttonName.name} id={buttonName.id} className={`button-${index + 1} button-style`} onClick={() => handle(buttonName.name)}>{buttonName.name}</button>)}
+          {buttons.map((buttonName, index) => (
+            <button
+              key={buttonName.name}
+              id={buttonName.id}
+              className={`button-${index + 1} button-style`}
+              onClick={() => handle(buttonName.name)}
+            >
+              {buttonName.name}
+            </button>
+          ))}
         </div>
       </div>
       <p className='text-author'>Designed and Coded By Yaroslav skiba</p>
@@ -144,6 +145,4 @@ function App() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-    <App />
-);
+root.render(<App />);
